@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Transition } from '@headlessui/react';
+import React, { useState } from "react";
 
 const CertificationPage = () => {
-  const [activePage, setActivePage] = useState('get'); // Default page is Get Certificate
-  const [isVerified, setIsVerified] = useState(false);
+  const [activePage, setActivePage] = useState("download"); // To toggle between the download and verify pages
+  const [isVerified, setIsVerified] = useState(false); // State for verification success
   const [verificationData, setVerificationData] = useState({
-    name: '',
-    certificateNumber: ''
+    name: "",
+    certificateNumber: "",
   });
 
   const handleInputChange = (e) => {
@@ -15,32 +14,28 @@ const CertificationPage = () => {
   };
 
   const handleVerify = () => {
+    // Dummy verification logic
     if (verificationData.name && verificationData.certificateNumber) {
-      setIsVerified(true);
+      setIsVerified(true); // Show success message on verification
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      {/* Transition between Get Certificate and Verify Certificate */}
-      <Transition
-        show={activePage === 'get'}
-        enter="transform transition duration-700"
-        enterFrom="translate-x-full opacity-0"
-        enterTo="translate-x-0 opacity-100"
-        leave="transform transition duration-700"
-        leaveFrom="translate-x-0 opacity-100"
-        leaveTo="-translate-x-full opacity-0"
-        className="absolute w-full h-full"
-      >
-        {/* Get Certificate Page */}
-        <div className="flex flex-col items-center justify-center h-screen w-full bg-white p-10">
-          <h1 className="text-4xl font-bold mb-8 text-transparent bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-center">
-            Get Your Certificate
-          </h1>
-          <div className="bg-gray-50 p-10 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-5">
+      {/* Page Header */}
+      <h1 className="text-4xl font-bold mb-8 text-transparent bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-center">
+        Certification Portal
+      </h1>
+
+      {/* Conditional Rendering for Active Page */}
+      {activePage === "download" ? (
+        // Download Certificate Page
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg h-full flex flex-col justify-between">
+          <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-4">Download Certificate</h2>
-            <p className="text-gray-600 mb-6">Enter your registration or contact number to download your course certificate.</p>
+            <p className="text-gray-600 text-base mb-4">
+              Enter your registration or contact number to download your course certificate.
+            </p>
             <input
               type="text"
               placeholder="Registration/Contact Number"
@@ -50,33 +45,25 @@ const CertificationPage = () => {
               Download Certificate
             </button>
           </div>
-          <button
-            onClick={() => setActivePage('verify')}
-            className="mt-8 p-3 bg-gray-300 text-lg rounded-lg hover:bg-gray-400 transition duration-300"
-          >
-            Go to Verify Certificate
-          </button>
-        </div>
-      </Transition>
 
-      <Transition
-        show={activePage === 'verify'}
-        enter="transform transition duration-700"
-        enterFrom="-translate-x-full opacity-0"
-        enterTo="translate-x-0 opacity-100"
-        leave="transform transition duration-700"
-        leaveFrom="translate-x-0 opacity-100"
-        leaveTo="translate-x-full opacity-0"
-        className="absolute w-full h-full"
-      >
-        {/* Verify Certificate Page */}
-        <div className="flex flex-col items-center justify-center h-screen w-full bg-white p-10">
-          <h1 className="text-4xl font-bold mb-8 text-transparent bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-center">
-            Verify Certificate
-          </h1>
-          <div className="bg-gray-50 p-10 rounded-lg shadow-lg w-full max-w-md">
+          {/* Get Certified Button at the Bottom */}
+          <div className="mt-6 text-center">
+            <button
+              className="px-5 py-3 bg-gray-300 text-lg rounded-lg hover:bg-gray-400 transition duration-300"
+              onClick={() => setActivePage("verify")} // Navigate to verify page
+            >
+              Get Certified
+            </button>
+          </div>
+        </div>
+      ) : (
+        // Verify Certificate Page
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg h-full flex flex-col justify-between">
+          <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-4">Verify Certificate</h2>
-            <p className="text-gray-600 mb-6">Enter your name and certificate number to verify your course certificate.</p>
+            <p className="text-gray-600 text-base mb-4">
+              Enter your name and certificate number to verify your course certificate.
+            </p>
             <input
               type="text"
               name="name"
@@ -100,9 +87,9 @@ const CertificationPage = () => {
               Verify Certificate
             </button>
 
-            {/* Display Verified Certificate */}
+            {/* Verified Certificate Display */}
             {isVerified && (
-              <div className="mt-6 p-4 bg-green-100 rounded-lg border-l-4 border-green-600">
+              <div className="mt-4 p-4 bg-green-100 rounded-lg border-l-4 border-green-600">
                 <h4 className="font-bold text-green-700 text-lg mb-2">✅ Certificate Verified</h4>
                 <p><strong>Name:</strong> {verificationData.name}</p>
                 <p><strong>Certificate Number:</strong> {verificationData.certificateNumber}</p>
@@ -111,14 +98,18 @@ const CertificationPage = () => {
               </div>
             )}
           </div>
-          <button
-            onClick={() => setActivePage('get')}
-            className="mt-8 p-3 bg-gray-300 text-lg rounded-lg hover:bg-gray-400 transition duration-300"
-          >
-            Go to Get Certificate
-          </button>
+
+          {/* Get Verified Button at the Bottom */}
+          <div className="mt-6 text-center">
+            <button
+              className="px-5 py-3 bg-gray-300 text-lg rounded-lg hover:bg-gray-400 transition duration-300"
+              onClick={() => setActivePage("download")} // Navigate back to download page
+            >
+              Get Verified
+            </button>
+          </div>
         </div>
-      </Transition>
+      )}
     </div>
   );
 };
