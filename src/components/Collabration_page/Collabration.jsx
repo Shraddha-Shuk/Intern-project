@@ -1,122 +1,73 @@
-import React, { useState } from "react";
+import React from "react";
 
 const CollaborationPage = () => {
-  const [isPartnerDetailsMode, setIsPartnerDetailsMode] = useState(false); // Controls switching between cards
-  const [partnerData, setPartnerData] = useState({
-    name: "",
-    institute: "",
-  });
-
-  const [downloadInfo, setDownloadInfo] = useState({
-    name: "",
-    contactNumber: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (isPartnerDetailsMode) {
-      setPartnerData({ ...partnerData, [name]: value });
-    } else {
-      setDownloadInfo({ ...downloadInfo, [name]: value });
-    }
-  };
-
-  const handleViewPartnerDetails = () => {
-    // Dummy partner details logic
-    if (partnerData.name && partnerData.institute) {
-      alert("Partner Details Displayed");
-    }
-  };
+  const educationalPartners = [
+    {
+      name: "IBM",
+      description:
+        "IBM provides cloud-based services, AI, and enterprise-grade computing solutions for educational institutions.",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+    },
+    {
+      name: "Cisco",
+      description:
+        "Cisco offers cutting-edge networking solutions and cybersecurity tools, empowering education through technology.",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Cisco_logo_blue_2016.svg",
+    },
+    {
+      name: "Google",
+      description:
+        "Google leads the way in online education with Google Classroom and innovative AI-based learning tools.",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    },
+    {
+      name: "Microsoft",
+      description:
+        "Microsoft supports education with tools like Azure, Microsoft Teams, and Office 365 for students and teachers.",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    },
+    {
+      name: "Amazon",
+      description:
+        "Amazon provides cloud-based services and AI tools through AWS, revolutionizing how education is delivered.",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-5">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8">
       {/* Page Header */}
-      <h1 className="text-4xl font-bold mb-8 text-transparent bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-center">
-        Our Collaboration Page
+      <h1 className="text-5xl font-bold text-center mb-12 text-transparent bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text">
+        Our Educational Partners
       </h1>
 
-      {/* Card Container */}
-      <div className="flex flex-col md:flex-row items-center justify-center w-full space-y-8 md:space-y-0 md:space-x-10">
-        {/* Educational Partners Section */}
-        {!isPartnerDetailsMode && (
-          <div className="bg-white p-6 rounded-lg shadow-md w-[90%] md:w-[45%] max-w-lg">
-            <h2 className="text-2xl font-semibold text-blue-700 mb-4">Educational Partners</h2>
-            <p className="text-gray-600 text-base mb-4">
-              Enter your name and contact information to view the details of our educational partners.
-            </p>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={downloadInfo.name}
-              onChange={handleInputChange}
-              className="w-full p-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none mb-4"
+      {/* Scrollable Card Container */}
+      <div className="flex space-x-8 overflow-x-scroll scrollbar-hide p-4">
+        {educationalPartners.map((partner, index) => (
+          <div
+            key={index}
+            className="flex-none w-72 bg-white shadow-lg rounded-lg transform hover:scale-105 transition duration-300 hover:shadow-xl"
+          >
+            {/* Partner Logo */}
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              className="h-16 mx-auto mt-6"
             />
-            <input
-              type="text"
-              name="contactNumber"
-              placeholder="Contact Number"
-              value={downloadInfo.contactNumber}
-              onChange={handleInputChange}
-              className="w-full p-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none mb-4"
-            />
-            <button className="w-full p-3 bg-blue-500 text-white text-lg font-bold rounded-lg hover:bg-blue-600 transition duration-300">
-              View Partners
-            </button>
+            {/* Partner Name */}
+            <div className="text-center p-4">
+              <h2 className="text-2xl font-bold text-indigo-700 mb-2">
+                {partner.name}
+              </h2>
+              {/* Partner Description */}
+              <p className="text-gray-600 mb-4">{partner.description}</p>
+              {/* Learn More Button */}
+              <button className="px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition duration-300">
+                Learn More
+              </button>
+            </div>
           </div>
-        )}
-
-        {/* Partner Details Section */}
-        {isPartnerDetailsMode && (
-          <div className="bg-white p-6 rounded-lg shadow-md w-[90%] md:w-[45%] max-w-lg">
-            <h2 className="text-2xl font-semibold text-blue-700 mb-4">Partner Details</h2>
-            <p className="text-gray-600 text-base mb-4">
-              Enter the name of the partner and their institute to view more details.
-            </p>
-            <input
-              type="text"
-              name="name"
-              placeholder="Partner Name"
-              value={partnerData.name}
-              onChange={handleInputChange}
-              className="w-full p-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none mb-4"
-            />
-            <input
-              type="text"
-              name="institute"
-              placeholder="Institute"
-              value={partnerData.institute}
-              onChange={handleInputChange}
-              className="w-full p-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none mb-4"
-            />
-            <button
-              onClick={handleViewPartnerDetails}
-              className="w-full p-3 bg-blue-500 text-white text-lg font-bold rounded-lg hover:bg-blue-600 transition duration-300"
-            >
-              View Partner Details
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="flex justify-center mt-8 space-x-4">
-        <button
-          onClick={() => setIsPartnerDetailsMode(false)}
-          className={`px-5 py-3 text-lg rounded-lg transition duration-300 ${
-            !isPartnerDetailsMode ? "bg-blue-500 text-white" : "bg-gray-300 hover:bg-gray-400"
-          }`}
-        >
-          View Partners
-        </button>
-        <button
-          onClick={() => setIsPartnerDetailsMode(true)}
-          className={`px-5 py-3 text-lg rounded-lg transition duration-300 ${
-            isPartnerDetailsMode ? "bg-blue-500 text-white" : "bg-gray-300 hover:bg-gray-400"
-          }`}
-        >
-          Partner Details
-        </button>
+        ))}
       </div>
     </div>
   );
